@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Elasticsearch;
 
@@ -11,12 +19,11 @@ namespace Swoft\Elasticsearch;
  */
 class Client
 {
+    public const DRIVER_DEFAULT = 1;
 
-    const DRIVER_DEFAULT = 1;
+    public const DRIVER_BASIC = 2;
 
-    const DRIVER_BASIC = 2;
-
-    const DRIVER_SECRET = 3;
+    public const DRIVER_SECRET = 3;
 
     /**
      * @var int
@@ -64,7 +71,7 @@ class Client
     private $retries = 0;
 
     /**
-     * @var string |
+     * @var string
      */
     private $ssl = '';
 
@@ -147,5 +154,4 @@ class Client
     {
         return $this->ssl;
     }
-
 }

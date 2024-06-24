@@ -1,8 +1,14 @@
 <?php declare(strict_types=1);
-
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Limiter\Aspect;
-
 
 use Swoft\Aop\Annotation\Mapping\Around;
 use Swoft\Aop\Annotation\Mapping\Aspect;
@@ -10,9 +16,9 @@ use Swoft\Aop\Annotation\Mapping\PointAnnotation;
 use Swoft\Aop\Point\ProceedingJoinPoint;
 use Swoft\Aop\Proxy;
 use Swoft\Bean\Annotation\Mapping\Inject;
+use Swoft\Limiter\Annotation\Mapping\RateLimiter;
 use Swoft\Limiter\RateLimter;
 use Throwable;
-use Swoft\Limiter\Annotation\Mapping\RateLimiter;
 
 /**
  * Class LimiterAspect

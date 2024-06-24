@@ -1,10 +1,18 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Elasticsearch;
 
-use Swoft\Elasticsearch\Connection\Connection;
 use Swoft\Connection\Pool\AbstractPool;
 use Swoft\Connection\Pool\Contract\ConnectionInterface;
+use Swoft\Elasticsearch\Connection\Connection;
 
 /**
  * Class Pool
@@ -15,8 +23,7 @@ use Swoft\Connection\Pool\Contract\ConnectionInterface;
  */
 class Pool extends AbstractPool
 {
-
-    const DEFAULT_POOL = 'elasticsearch.pool';
+    public const DEFAULT_POOL = 'elasticsearch.pool';
 
     /**
      * @var Client
@@ -51,5 +58,4 @@ class Pool extends AbstractPool
 
         return $connection;
     }
-
 }

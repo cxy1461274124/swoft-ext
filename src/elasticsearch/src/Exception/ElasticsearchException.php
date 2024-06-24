@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Elasticsearch\Exception;
 
@@ -7,13 +15,12 @@ use Exception;
 /**
  * Class ElasticsearchException
  *
- * @since   2.0
+ * @since   2.8
  *
  * @package Swoft\Elasticsearch\Exception
  */
 class ElasticsearchException extends Exception
 {
-
     /**
      * @var array
      */
@@ -34,5 +41,4 @@ class ElasticsearchException extends Exception
     {
         $this->response = $response;
     }
-
 }

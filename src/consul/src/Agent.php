@@ -1,8 +1,14 @@
 <?php declare(strict_types=1);
-
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Consul;
-
 
 use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Bean\Annotation\Mapping\Inject;
@@ -83,9 +89,9 @@ class Agent implements AgentInterface
      */
     public function join(string $address, array $options = []): Response
     {
-        $params = array(
+        $params = [
             'query' => OptionsResolver::resolve($options, ['wan']),
-        );
+        ];
 
         return $this->consul->get('/v1/agent/join/' . $address, $params);
     }

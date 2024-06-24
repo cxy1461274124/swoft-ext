@@ -1,5 +1,12 @@
 <?php declare(strict_types=1);
-
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Breaker;
 
@@ -36,7 +43,6 @@ class BreakerManager
         foreach ($breakers as $className => $methodBreakers) {
             /* @var BreakerAnnotation $breaker */
             foreach ($methodBreakers as $methodName => $breaker) {
-
                 $bConfig = [];
                 $config  = $breaker->getConfig();
                 foreach ($config as $key) {
@@ -60,9 +66,7 @@ class BreakerManager
     {
         $breaker = $this->breakers[$className][$methodName] ?? null;
         if (empty($breaker)) {
-            throw new BreakerException(
-                sprintf('Breaker(%s->%s) is not exist!', $className, $methodName)
-            );
+            throw new BreakerException(sprintf('Breaker(%s->%s) is not exist!', $className, $methodName));
         }
 
         return $breaker;

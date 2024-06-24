@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Amqp\Connector;
 
@@ -9,10 +17,9 @@ use Swoft\Bean\Annotation\Mapping\Bean;
 /**
  * Class AMQPConnector
  *
- * @since   2.0
- * @Bean()
+ * @since 2.0
  *
- * @package Swoft\Amqp\Connector
+ * @Bean()
  */
 class AMQPConnector implements ConnectorInterface
 {
@@ -31,6 +38,12 @@ class AMQPConnector implements ConnectorInterface
      */
     private $queue;
 
+    /**
+     * @param array $config
+     * @param array $option
+     *
+     * @return Object|void
+     */
     public function connect(array $config, array $option)
     {
     }

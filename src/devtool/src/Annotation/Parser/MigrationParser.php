@@ -1,8 +1,14 @@
 <?php declare(strict_types=1);
-
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Devtool\Annotation\Parser;
-
 
 use InvalidArgumentException;
 use Swoft\Annotation\Annotation\Mapping\AnnotationParser;
@@ -42,8 +48,7 @@ class MigrationParser extends Parser
         }
 
         if (StringHelper::length($migrationName) > 255) {
-            throw new InvalidArgumentException(get_class($annotationObject) .
-                ' this class name too long, please reduce the length');
+            throw new InvalidArgumentException(get_class($annotationObject) . ' this class name too long, please reduce the length');
         }
 
         MigrationRegister::registerMigration($migrationName, $time, $annotationObject->getPool());

@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Devtool;
 
@@ -11,8 +19,7 @@ use function env;
 /**
  * Class AutoLoader
  *
- * @since   2.0
- * @package Swoft\Devtool
+ * @since 2.0
  */
 class AutoLoader extends SwoftComponent
 {
@@ -27,21 +34,11 @@ class AutoLoader extends SwoftComponent
     }
 
     /**
-     *
-     *
      * @return bool
      */
-    public function enable(): bool
+    public function isEnable(): bool
     {
-        return (int)env('ENABLE_DEVTOOL', 0) > 0;
-    }
-
-    /**
-     * @return array
-     */
-    public function beans(): array
-    {
-        return [];
+        return (int)env('ENABLE_DEVTOOL', 1) > 0;
     }
 
     /**

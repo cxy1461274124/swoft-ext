@@ -1,9 +1,18 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\View;
 
 use Swoft\Helper\ComposerJSON;
 use Swoft\SwoftComponent;
+use function dirname;
 
 /**
  * Class AutoLoader
@@ -33,7 +42,7 @@ class AutoLoader extends SwoftComponent
      */
     public function metadata(): array
     {
-        $jsonFile = \dirname(__DIR__) . '/composer.json';
+        $jsonFile = dirname(__DIR__) . '/composer.json';
 
         return ComposerJSON::open($jsonFile)->getMetadata();
     }

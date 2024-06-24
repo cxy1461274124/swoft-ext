@@ -1,17 +1,22 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Elasticsearch\Connection;
 
-use Elasticsearch\Client as ElasticSearchClient;
 use Elasticsearch\ClientBuilder;
-use Exception;
-use Swoft\Elasticsearch\Client;
-use Swoft\Elasticsearch\Exception\ElasticsearchException;
 use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Bean\Annotation\Mapping\Inject;
 use Swoft\Bean\BeanFactory;
 use Swoft\Connection\Pool\AbstractConnection;
 use Swoft\Connection\Pool\Contract\PoolInterface;
+use Swoft\Elasticsearch\Client;
 
 /**
  * Class Connection
@@ -23,7 +28,6 @@ use Swoft\Connection\Pool\Contract\PoolInterface;
  */
 class Connection extends AbstractConnection
 {
-
     /**
      * @var Client
      */
@@ -126,12 +130,10 @@ class Connection extends AbstractConnection
                 $builder->setHosts($hosts);
                 break;
             case Client::DRIVER_BASIC:
-                $builder->setElasticCloudId($cloudId)
-                    ->setBasicAuthentication($user, $pass);
+                $builder->setElasticCloudId($cloudId)->setBasicAuthentication($user, $pass);
                 break;
             case Client::DRIVER_SECRET:
-                $builder->setElasticCloudId($cloudId)
-                    ->setApiKey($user, $pass);
+                $builder->setElasticCloudId($cloudId)->setApiKey($user, $pass);
                 break;
         }
 
@@ -169,5 +171,4 @@ class Connection extends AbstractConnection
 
         parent::release($force);
     }
-
 }

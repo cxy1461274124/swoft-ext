@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\View;
 
@@ -60,6 +68,7 @@ class Renderer implements ViewInterface
 
     /**
      * Class constructor.
+     *
      * @param array $config
      */
     public function __construct(array $config = [])
@@ -76,6 +85,7 @@ class Renderer implements ViewInterface
      * @param string            $view
      * @param array             $data   extract data to view, cannot contain view as a key
      * @param string|null|false $layout Override default layout file
+     *
      * @return string
      * @throws Throwable
      */
@@ -94,6 +104,7 @@ class Renderer implements ViewInterface
     /**
      * @param string $view
      * @param array  $data
+     *
      * @return string
      * @throws Throwable
      */
@@ -106,6 +117,7 @@ class Renderer implements ViewInterface
      * @param string      $content
      * @param array       $data
      * @param string|null $layout override default layout file
+     *
      * @return string
      * @throws Throwable
      */
@@ -118,6 +130,7 @@ class Renderer implements ViewInterface
      * @param string      $content
      * @param array       $data
      * @param string|null $layout override default layout file
+     *
      * @return string
      * @throws Throwable
      */
@@ -137,6 +150,7 @@ class Renderer implements ViewInterface
      * @param string $view
      * @param array  $data
      * @param bool   $outputIt
+     *
      * @return string
      * @throws Throwable
      */
@@ -156,6 +170,7 @@ class Renderer implements ViewInterface
      *
      * @param string $view
      * @param array  $data
+     *
      * @return mixed
      * @throws Throwable
      */
@@ -192,6 +207,7 @@ class Renderer implements ViewInterface
 
     /**
      * @param $view
+     *
      * @return string
      */
     public function getViewFile(string $view): string
@@ -246,6 +262,7 @@ class Renderer implements ViewInterface
      * Retrieve an attribute
      *
      * @param $key
+     *
      * @return mixed
      */
     public function getAttribute($key)
@@ -317,6 +334,7 @@ class Renderer implements ViewInterface
 
     /**
      * @param string $view
+     *
      * @return string
      */
     protected function getRealView(string $view): string

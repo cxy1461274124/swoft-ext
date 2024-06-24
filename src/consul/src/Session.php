@@ -1,8 +1,14 @@
 <?php declare(strict_types=1);
-
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Consul;
-
 
 use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Bean\Annotation\Mapping\Inject;
@@ -37,10 +43,10 @@ class Session implements SessionInterface
      */
     public function create(array $body = null, array $options = []): Response
     {
-        $params = array(
+        $params = [
             'body'  => $body,
             'query' => OptionsResolver::resolve($options, ['dc']),
-        );
+        ];
 
         return $this->consul->put('/v1/session/create', $params);
     }
@@ -55,9 +61,9 @@ class Session implements SessionInterface
      */
     public function destroy(string $sessionId, array $options = []): Response
     {
-        $params = array(
+        $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
-        );
+        ];
 
         return $this->consul->put('/v1/session/destroy/' . $sessionId, $params);
     }
@@ -72,9 +78,9 @@ class Session implements SessionInterface
      */
     public function info(string $sessionId, array $options = []): Response
     {
-        $params = array(
+        $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
-        );
+        ];
 
         return $this->consul->get('/v1/session/info/' . $sessionId, $params);
     }
@@ -89,9 +95,9 @@ class Session implements SessionInterface
      */
     public function node(string $node, array $options = []): Response
     {
-        $params = array(
+        $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
-        );
+        ];
 
         return $this->consul->get('/v1/session/node/' . $node, $params);
     }
@@ -105,9 +111,9 @@ class Session implements SessionInterface
      */
     public function all(array $options = []): Response
     {
-        $params = array(
+        $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
-        );
+        ];
 
         return $this->consul->get('/v1/session/list', $params);
     }
@@ -122,9 +128,9 @@ class Session implements SessionInterface
      */
     public function renew(string $sessionId, array $options = []): Response
     {
-        $params = array(
+        $params = [
             'query' => OptionsResolver::resolve($options, ['dc']),
-        );
+        ];
 
         return $this->consul->put('/v1/session/renew/' . $sessionId, $params);
     }

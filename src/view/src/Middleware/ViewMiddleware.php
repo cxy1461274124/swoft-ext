@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\View\Middleware;
 
@@ -16,6 +24,7 @@ use Swoft\Stdlib\Contract\Arrayable;
 use Swoft\View\Renderer;
 use Swoft\View\ViewRegister;
 use Throwable;
+use function bean;
 use function context;
 use function current;
 use function is_object;
@@ -67,10 +76,10 @@ class ViewMiddleware implements MiddlewareInterface
             }
 
             /* @var Renderer $view */
-            $renderer = \bean('view');
+            $renderer = bean('view');
             $content  = $renderer->render($template, $data, $layout);
 
-            return $response->withContent($content)->withContentType(ContentType::KEY, $contentType);
+            return $response->withContent($content)->withContentType($contentType);
         }
 
         return $response;

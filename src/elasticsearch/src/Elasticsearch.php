@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Elasticsearch;
 
@@ -7,7 +15,6 @@ use Swoft\Elasticsearch\Connection\Connection;
 use Swoft\Elasticsearch\Connection\ConnectionInstance;
 use Swoft\Elasticsearch\Connection\ConnectionManager;
 use Swoft\Elasticsearch\Exception\ElasticsearchException;
-use Swoft\Bean\BeanFactory;
 
 /**
  * Class Elasticsearch
@@ -153,7 +160,6 @@ use Swoft\Bean\BeanFactory;
  */
 class Elasticsearch
 {
-
     /**
      * connection
      *
@@ -167,20 +173,20 @@ class Elasticsearch
         try {
             /** @var ConnectionManager $manager */
             $manager = bean(ConnectionManager::class);
-
             /** @var Pool $elasticsearchPool */
             $elasticsearchPool = bean($pool);
             /** @var Connection $connection */
             $connection = $elasticsearchPool->getConnection();
-
             $connection->setRelease(true);
             $manager->setConnection($connection);
         } catch (Exception $e) {
-            throw new ElasticsearchException(
-                sprintf('Pool error is %s file=%s line=%d', $e->getMessage(), $e->getFile(), $e->getLine())
-            );
+            throw new ElasticsearchException(sprintf(
+                'Pool error is %s file=%s line=%d',
+                $e->getMessage(),
+                $e->getFile(),
+                $e->getLine()
+            ));
         }
-
         return $connection->getInstance();
     }
 
@@ -197,7 +203,6 @@ class Elasticsearch
     {
         /** @var ConnectionInstance $instance */
         $instance = self::connection();
-
         return $instance->$name(...$arguments);
     }
 }

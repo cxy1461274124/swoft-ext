@@ -1,8 +1,14 @@
 <?php declare(strict_types=1);
-
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Swoole\Tracker\Middleware;
-
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,6 +18,7 @@ use Swoft\Bean\Annotation\Mapping\Inject;
 use Swoft\Http\Message\Request;
 use Swoft\Http\Server\Contract\MiddlewareInterface;
 use Swoft\Swoole\Tracker\SwooleTracker;
+use SwooleTracker\Tick;
 use Throwable;
 use function config;
 use function current;
@@ -30,7 +37,7 @@ class SwooleTrackerMiddleware implements MiddlewareInterface
      *
      * @var SwooleTracker
      */
-    private $swoleTracker;
+    private $swooleTracker;
 
     /**
      * @param ServerRequestInterface|Request $request
@@ -54,7 +61,6 @@ class SwooleTrackerMiddleware implements MiddlewareInterface
 
             $this->endNormalAnalysis($tick, $response->getStatusCode());
         } catch (Throwable $e) {
-
             $this->endExceptionAnalysis($tick, $e->getCode());
 
             throw $e;
@@ -66,10 +72,10 @@ class SwooleTrackerMiddleware implements MiddlewareInterface
     /**
      * @param Request $request
      *
-     * @return object|null
+     * @return Tick|null
      * @throws Throwable
      */
-    private function startAnalysis(Request $request): ?object
+    private function startAnalysis(Request $request)
     {
         $path    = $request->getUriPath();
         $ip      = current(swoole_get_local_ip());
@@ -78,42 +84,34 @@ class SwooleTrackerMiddleware implements MiddlewareInterface
         $traceId = context()->get('traceid', $request->getHeaderLine('traceid'));
         $spanId  = context()->get('spanid', $request->getHeaderLine('spanid'));
 
-        $tick = $this->swoleTracker->startRpcAnalysis($path, $appName, $ip, $traceId, $spanId);
+        $tick = $this->swooleTracker->startRpcAnalysis($path, $appName, $ip, $traceId, $spanId);
 
         return $tick;
     }
 
     /**
-     * @param object|null $tick
-     * @param int         $responseCode
+     * @param Tick|null $tick
+     * @param int       $responseCode
      *
      * @return void
      */
-    private function endNormalAnalysis(?object $tick, int $responseCode): void
+    private function endNormalAnalysis($tick, int $responseCode): void
     {
         if (isset($tick)) {
-            $this->swoleTracker->endRpcAnalysis(
-                $tick,
-                $responseCode === 200,
-                $responseCode
-            );
+            $this->swooleTracker->endRpcAnalysis($tick, $responseCode === 200, $responseCode);
         }
     }
 
     /**
-     * @param object|null $tick
-     * @param int         $errno
+     * @param Tick|null $tick
+     * @param int       $errno
      *
      * @return void
      */
-    private function endExceptionAnalysis(?object $tick, int $errno): void
+    private function endExceptionAnalysis($tick, int $errno): void
     {
         if (isset($tick)) {
-            $this->swoleTracker->endRpcAnalysis(
-                $tick,
-                false,
-                $errno
-            );
+            $this->swooleTracker->endRpcAnalysis($tick, false, $errno);
         }
     }
 }

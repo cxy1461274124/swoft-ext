@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Crontab\Annotaion\Parser;
 
@@ -18,7 +26,7 @@ use Swoft\Crontab\Exception\CrontabException;
 class CronParser extends Parser
 {
     /**
-     * @param int $type
+     * @param int  $type
      * @param Cron $annotation
      *
      * @return array

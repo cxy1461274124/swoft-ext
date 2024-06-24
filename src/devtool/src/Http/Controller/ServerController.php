@@ -1,13 +1,32 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Devtool\Http\Controller;
 
-use Swoft\Helper\ProcessHelper;
 use Swoft\Http\Message\Request;
 use Swoft\Http\Server\Annotation\Mapping\Controller;
 use Swoft\Http\Server\Annotation\Mapping\RequestMapping;
 use Swoft\Http\Server\Annotation\Mapping\RequestMethod;
 use Swoft\Stdlib\Helper\Sys;
+use Swoft;
+use RuntimeException;
+use InvalidArgumentException;
+use Throwable;
+use function get_loaded_extensions;
+use function server;
+use function date;
+use function bean;
+use function str_replace;
+use function array_shift;
+use function trim;
+use function explode;
 
 /**
  * Class ServerController
@@ -19,20 +38,23 @@ class ServerController
     /**
      * Get server config
      * @RequestMapping(route="config", method=RequestMethod::GET)
+     *
      * @return array
      */
     public function config(): array
     {
         return [
-            'swoole' => \server()->getSetting(),
-            'server' => \server()->getTypeName(),
+            'swoole' => server()->getSetting(),
+            'server' => server()->getTypeName(),
         ];
     }
 
     /**
      * get all registered events list
      * @RequestMapping(route="events", method=RequestMethod::GET)
+     *
      * @param Request $request
+     *
      * @return array
      */
     public function events(Request $request): array
@@ -63,23 +85,24 @@ class ServerController
      */
     public function phpExt(): array
     {
-        return \get_loaded_extensions();
+        return get_loaded_extensions();
     }
 
     /**
      * Get swoole server stats
      * @RequestMapping(route="stats", method=RequestMethod::GET)
+     *
      * @return array
      */
     public function stats(): array
     {
-        if (!\server()) {
+        if (!server()) {
             return ['msg' => 'server is not running'];
         }
 
-        $stat = \server()->getSwooleStats();
+        $stat = server()->getSwooleStats();
         // start date
-        $stat['start_date'] = \date('Y-m-d H:i:s', $stat['start_time']);
+        $stat['start_date'] = date('Y-m-d H:i:s', $stat['start_time']);
 
         return $stat;
     }
@@ -87,17 +110,18 @@ class ServerController
     /**
      * get crontab list
      * @RequestMapping(route="crontab", method=RequestMethod::GET)
+     *
      * @return array
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function cronTab(): array
     {
-        if (!\Swoft::hasBean('crontab')) {
+        if (!Swoft::hasBean('crontab')) {
             return [];
         }
 
         /** @var \Swoft\Task\Crontab\Crontab $cronTab */
-        $cronTab = \bean('crontab');
+        $cronTab = bean('crontab');
 
         return $cronTab->getTasks();
     }
@@ -105,9 +129,10 @@ class ServerController
     /**
      * get swoole info
      * @RequestMapping(route="processes", method=RequestMethod::GET)
+     *
      * @return array
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function process(): array
     {
@@ -124,9 +149,10 @@ class ServerController
     /**
      * Get swoole info
      * @RequestMapping(route="swoole-info", method=RequestMethod::GET)
+     *
      * @return array
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function swoole(): array
     {
@@ -136,11 +162,11 @@ class ServerController
         }
 
         // format
-        $str = \str_replace("\r\n", "\n", \trim($return));
-        [, $enableStr, $directiveStr] = \explode("\n\n", $str);
+        $str = str_replace("\r\n", "\n", trim($return));
+        [, $enableStr, $directiveStr] = explode("\n\n", $str);
 
         $directive = $this->formatSwooleInfo($directiveStr);
-        \array_shift($directive);
+        array_shift($directive);
 
         return [
             'raw'       => $return,
@@ -151,15 +177,16 @@ class ServerController
 
     /**
      * @param string $str
+     *
      * @return array
      */
     private function formatSwooleInfo(string $str): array
     {
         $data  = [];
-        $lines = \explode("\n", \trim($str));
+        $lines = explode("\n", trim($str));
 
         foreach ($lines as $line) {
-            [$name, $value] = \explode(' => ', $line);
+            [$name, $value] = explode(' => ', $line);
             $data[] = [
                 'name'  => $name,
                 'value' => $value,

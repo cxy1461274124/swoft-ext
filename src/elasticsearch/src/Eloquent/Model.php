@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Elasticsearch\Eloquent;
 
@@ -16,7 +24,6 @@ use Swoft\Stdlib\Helper\StringHelper;
  */
 class Model implements Arrayable
 {
-
     /**
      * @var string
      */
@@ -217,8 +224,7 @@ class Model implements Arrayable
      */
     public function delete(): bool
     {
-        return self::query()
-            ->delete($this->_id);
+        return self::query()->delete($this->_id);
     }
 
     /**
@@ -284,5 +290,4 @@ class Model implements Arrayable
     {
         return self::query()->create($value);
     }
-
 }

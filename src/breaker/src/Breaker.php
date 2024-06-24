@@ -1,5 +1,12 @@
 <?php declare(strict_types=1);
-
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Breaker;
 
@@ -238,7 +245,7 @@ class Breaker
             }
 
             $channel = new Channel(1);
-            sgo(function () use ($callback, $channel) {
+            sgo(function () use ($callback, $channel): void {
                 try {
                     $result = PhpHelper::call($callback);
                     $channel->push([true, $result]);
@@ -250,9 +257,7 @@ class Breaker
 
             $data = $channel->pop($this->timeout);
             if ($data === false) {
-                throw new BreakerException(
-                    sprintf('Breaker call timeout(%f)', $this->timeout)
-                );
+                throw new BreakerException(sprintf('Breaker call timeout(%f)', $this->timeout));
             }
 
             [$status, $result] = $data;

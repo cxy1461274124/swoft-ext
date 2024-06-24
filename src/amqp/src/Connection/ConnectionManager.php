@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Amqp\Connection;
 
@@ -10,10 +18,9 @@ use Swoft\Concern\ArrayPropertyTrait;
 /**
  * Class ConnectionManager
  *
- * @since   2.0
- * @Bean()
+ * @since 2.0
  *
- * @package Swoft\Amqp\Connection
+ * @Bean()
  */
 class ConnectionManager
 {
@@ -56,7 +63,6 @@ class ConnectionManager
         $key = sprintf('%d.%d', Co::tid(), Co::id());
 
         $connections = $this->get($key, []);
-        var_dump('=========release============');
         foreach ($connections as $connection) {
             if ($connection instanceof ConnectionInterface) {
                 $connection->release();
@@ -68,5 +74,4 @@ class ConnectionManager
             $this->unset($finalKey);
         }
     }
-
 }

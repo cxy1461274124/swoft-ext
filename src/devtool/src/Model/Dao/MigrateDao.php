@@ -1,11 +1,16 @@
 <?php declare(strict_types=1);
-
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Devtool\Model\Dao;
 
-use ReflectionException;
 use Swoft\Bean\Annotation\Mapping\Bean;
-use Swoft\Bean\Exception\ContainerException;
 use Swoft\Db\DB;
 use Swoft\Db\Exception\DbException;
 use Swoft\Db\Query\Builder;
@@ -25,6 +30,7 @@ class MigrateDao
      * @var int
      */
     public const IS_ROLLBACK  = 1; // use flag record is rollback status
+
     public const NOT_ROLLBACK = 2; // use flag record is not rollback status
 
     /**
@@ -47,11 +53,7 @@ class MigrateDao
      */
     public function listMigrate(int $limit, string $pool, string $db): array
     {
-        return $this->table($pool, $db)
-            ->latest('id')
-            ->limit($limit)
-            ->get()
-            ->toArray();
+        return $this->table($pool, $db)->latest('id')->limit($limit)->get()->toArray();
     }
 
     /**
@@ -63,19 +65,16 @@ class MigrateDao
      * @param string $db
      *
      * @return bool
-     * @throws ContainerException
      * @throws DbException
-     * @throws ReflectionException
      */
     public function save(string $name, int $time, string $pool, string $db): bool
     {
-        $where                 = compact('name', 'time');
+        $where = compact('name', 'time');
 
         $params['is_rollback'] = static::NOT_ROLLBACK;
 
         return $this->table($pool, $db)->updateOrInsert($where, $params + $where);
     }
-
 
     /**
      * Get executed migrates
@@ -89,11 +88,8 @@ class MigrateDao
      */
     public function getMigrateNames(array $migrateNames, string $pool, string $db): array
     {
-        $migrateNames = $this->table($pool, $db)
-            ->whereIn('name', $migrateNames)
-            ->get(['name', 'is_rollback'])
-            ->pluck('is_rollback', 'name')
-            ->toArray();
+        $migrateNames = $this->table($pool, $db)->whereIn('name', $migrateNames)->get(['name', 'is_rollback'])
+                             ->pluck('is_rollback', 'name')->toArray();
 
         return $migrateNames;
     }
@@ -110,13 +106,8 @@ class MigrateDao
      */
     public function lastMigrationNames(string $pool, string $db, int $step = 1): array
     {
-        $lasts = $this->table($pool, $db)
-            ->select('name')
-            ->where('is_rollback', static::NOT_ROLLBACK)
-            ->latest('id')
-            ->limit($step)
-            ->pluck('name')
-            ->toArray();
+        $lasts = $this->table($pool, $db)->select('name')->where('is_rollback', static::NOT_ROLLBACK)->latest('id')
+                      ->limit($step)->pluck('name')->toArray();
 
         return $lasts;
     }
@@ -129,15 +120,12 @@ class MigrateDao
      * @param string $db
      *
      * @return bool
-     * @throws ContainerException
      * @throws DbException
-     * @throws ReflectionException
      */
     public function rollback($names, string $pool, string $db): bool
     {
-        return (bool)$this->table($pool, $db)
-            ->where('name', '=', $names)
-            ->update(['is_rollback' => static::IS_ROLLBACK]);
+        return (bool)$this->table($pool, $db)->where('name', '=', $names)
+                          ->update(['is_rollback' => static::IS_ROLLBACK]);
     }
 
     /**

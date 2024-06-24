@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Amqp;
 
@@ -7,12 +15,15 @@ use Swoft\SwoftComponent;
 use function dirname;
 
 /**
- * class AutoLoader
+ * Class AutoLoader
+ *
  * @since 2.0
  */
 final class AutoLoader extends SwoftComponent
 {
     /**
+     * Get namespace and dirs.
+     *
      * @return bool
      */
     public function enable(): bool
@@ -49,6 +60,14 @@ final class AutoLoader extends SwoftComponent
      */
     public function beans(): array
     {
-        return [];
+        return [
+            'amqp'      => [
+                'class' => Client::class
+            ],
+            'amqp.pool' => [
+                'class'  => Pool::class,
+                'client' => bean('amqp')
+            ]
+        ];
     }
 }

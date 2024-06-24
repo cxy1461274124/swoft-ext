@@ -1,12 +1,18 @@
 <?php declare(strict_types=1);
-
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Crontab\Process;
 
 use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Bean\Annotation\Mapping\Inject;
 use Swoft\Crontab\Crontab;
-use Swoft\Exception\SwoftException;
 use Swoft\Process\Process;
 use Swoft\Process\UserProcess;
 
@@ -26,11 +32,8 @@ class CrontabProcess extends UserProcess
      */
     private $crontab;
 
-
     /**
      * @param Process $process
-     *
-     * @throws SwoftException
      */
     public function run(Process $process): void
     {

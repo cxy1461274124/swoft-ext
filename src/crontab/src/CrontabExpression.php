@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Crontab;
 
@@ -34,7 +42,7 @@ class CrontabExpression
     }
 
     /**
-     * @param int $key
+     * @param int    $key
      * @param string $value
      *
      * @return bool
@@ -77,8 +85,8 @@ class CrontabExpression
     /**
      * @param string $value
      *
-     * @param int $rangeStart
-     * @param int $rangeEnd
+     * @param int    $rangeStart
+     * @param int    $rangeEnd
      *
      * @return bool
      */
@@ -89,7 +97,7 @@ class CrontabExpression
         }
         if (strpos($value, '/') !== false) {
             str_replace('*', '0', '$value');
-            list($start, $end) = explode('/', $value);
+            [$start, $end] = explode('/', $value);
             if (!ctype_digit($start) || !ctype_digit($end)) {
                 return false;
             }
@@ -98,7 +106,7 @@ class CrontabExpression
             }
         }
         if (strpos($value, '-') !== false) {
-            list($start, $end) = explode('-', $value);
+            [$start, $end] = explode('-', $value);
             if (!ctype_digit($start) || !ctype_digit($end)) {
                 return false;
             }
@@ -131,22 +139,22 @@ class CrontabExpression
     public static function parseCronItem(string $cronExpress): array
     {
         $cronItems = preg_split('/\s/', $cronExpress, -1, PREG_SPLIT_NO_EMPTY);
-        $times = array();
-        $maxLimit=[59,59,23,31,12,6];
+        $times     = [];
+        $maxLimit  = [59, 59, 23, 31, 12, 6];
         foreach ($cronItems as $k => $item) {
             if ('*' === $item || '?' === $item) {
-                $times [$k] = $item;
+                $times[$k] = $item;
             }
             if (strpos($item, '/') !== false) {
                 str_replace('*', '0', '$value');
-                list($start, $end) = explode('/', $item);
+                [$start, $end] = explode('/', $item);
                 while ($start <= $maxLimit[$k]) {
-                    $times [$k][] = $start;
-                    $start += $end;
+                    $times[$k][] = $start;
+                    $start        += $end;
                 }
             }
             if (strpos($item, '-') !== false) {
-                list($start, $end) = explode('-', $item);
+                [$start, $end] = explode('-', $item);
                 $times[$k] = range($start, $end);
             }
             if (strpos($item, ',') !== false) {
@@ -161,7 +169,7 @@ class CrontabExpression
 
     /**
      * @param string $cron
-     * @param int $time
+     * @param int    $time
      *
      * @return bool
      */
@@ -169,12 +177,12 @@ class CrontabExpression
     {
         $startTime = $time ?? time();
 
-        $date[] = (int)date('s', $startTime);
-        $date[] = (int)date('i', $startTime);
-        $date[] = (int)date('H', $startTime);
-        $date[] = (int)date('d', $startTime);
-        $date[] = (int)date('m', $startTime);
-        $date[] = (int)date('w', $startTime);
+        $date[]     = (int)date('s', $startTime);
+        $date[]     = (int)date('i', $startTime);
+        $date[]     = (int)date('H', $startTime);
+        $date[]     = (int)date('d', $startTime);
+        $date[]     = (int)date('m', $startTime);
+        $date[]     = (int)date('w', $startTime);
         $parsedDate = self::parseCronItem($cron);
 
         foreach ($parsedDate as $k => $cronItem) {

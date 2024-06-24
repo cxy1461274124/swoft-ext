@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Devtool\Http\Controller;
 
@@ -17,7 +25,9 @@ class GenController
     /**
      * This is a example action
      * @RequestMapping(route="/__devtool/gen", method=RequestMethod::GET)
+     *
      * @param Request $request
+     *
      * @return array
      */
     public function index(Request $request): array
@@ -30,7 +40,9 @@ class GenController
     /**
      * Generate class file preview
      * @RequestMapping(route="preview", method=RequestMethod::POST)
+     *
      * @param Request $request
+     *
      * @return array
      */
     public function preview(Request $request): array
@@ -43,7 +55,9 @@ class GenController
     /**
      * Generate class file
      * @RequestMapping(route="file", method=RequestMethod::POST)
+     *
      * @param Request $request
+     *
      * @return array
      */
     public function create(Request $request): array
@@ -52,6 +66,4 @@ class GenController
 
         return ['item0', 'item1'];
     }
-
-
 }

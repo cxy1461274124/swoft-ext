@@ -1,8 +1,15 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Elasticsearch;
 
-use Swoft\Elasticsearch\Connection\ConnectionManager;
 use Swoft\Helper\ComposerJSON;
 use Swoft\SwoftComponent;
 use function dirname;
@@ -41,7 +48,7 @@ final class AutoLoader extends SwoftComponent
      */
     public function metadata(): array
     {
-        $jsonFile = dirname(__DIR__).'/composer.json';
+        $jsonFile = dirname(__DIR__) . '/composer.json';
 
         return ComposerJSON::open($jsonFile)->getMetadata();
     }

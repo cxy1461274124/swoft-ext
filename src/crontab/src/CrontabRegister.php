@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Crontab;
 
@@ -49,16 +57,16 @@ class CrontabRegister
     public static function registerCron(string $className, string $methodName, $objAnnotation): void
     {
         if (!isset(self::$scheduledClasses[$className])) {
-            throw new CrontabException(
-                sprintf('%s must be define class `@Scheduled()`', get_class($objAnnotation))
-            );
+            throw new CrontabException(sprintf('%s must be define class `@Scheduled()`', get_class($objAnnotation)));
         }
 
         $cronExpression = $objAnnotation->getValue();
         if (!CrontabExpression::parse($cronExpression)) {
-            throw new CrontabException(
-                sprintf('`%s::%s()` `@Cron()` expression format is error', $className, $methodName)
-            );
+            throw new CrontabException(sprintf(
+                '`%s::%s()` `@Cron()` expression format is error',
+                $className,
+                $methodName
+            ));
         }
 
 
@@ -66,12 +74,13 @@ class CrontabRegister
     }
 
     /**
+     * @param int $time
+     *
      * @return array
      */
-    public static function getCronTasks(): array
+    public static function getCronTasks(int $time): array
     {
         $tasks = [];
-        $time  = time();
         foreach (self::$crontabs as $crontab) {
             ['class' => $className, 'method' => $methodName, 'cron' => $cron] = $crontab;
             if (!CrontabExpression::parseObj($cron, $time)) {
@@ -83,6 +92,7 @@ class CrontabRegister
                 $methodName
             ];
         }
+
         return $tasks;
     }
 }

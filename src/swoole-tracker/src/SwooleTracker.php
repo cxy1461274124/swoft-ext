@@ -1,12 +1,19 @@
 <?php declare(strict_types=1);
-
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Swoole\Tracker;
 
-
-use SwooleTracker\Stats;
 use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Log\Helper\CLog;
+use SwooleTracker\Stats;
+use SwooleTracker\Tick;
 use Throwable;
 
 /**
@@ -27,16 +34,16 @@ class SwooleTracker
      * @param string $traceId
      * @param string $spanId
      *
-     * @return object|null \StatsCenter_Tick
+     * @return Tick|null
      * @throws Throwable
      */
     public function startRpcAnalysis(
         string $path,
         string $serviceName,
         string $serverIp,
-        string $traceId,
-        string $spanId
-    ): ?object {
+        string $traceId = '',
+        string $spanId = ''
+    ) {
         if (class_exists(Stats::class) === false) {
             CLog::error('Stats::class not found, Please check swoole_tracker extend');
             return null;
@@ -56,15 +63,15 @@ class SwooleTracker
     /**
      * End this analysis link tracking
      *
-     * @param object $tick StatsCenter_Tick \StatsCenter_Tick
-     * @param bool   $isSuccess
-     * @param int    $errno
+     * @param Tick $tick Tick
+     * @param bool $isSuccess
+     * @param int  $errno
      *
      * @return void
      */
     public function endRpcAnalysis($tick, bool $isSuccess, int $errno): void
     {
-        if (empty($tick)) {
+        if ($tick === null) {
             return;
         }
         if (class_exists(Stats::class) === false) {
@@ -77,6 +84,4 @@ class SwooleTracker
             CLog::error(__FUNCTION__ . ' ' . $e->getMessage());
         }
     }
-
-
 }

@@ -1,4 +1,12 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Devtool\Command;
 
@@ -65,21 +73,13 @@ class MigrateCommand
      */
     public function up(): void
     {
-
         [$dbs, $prefix, $start, $end, $isConfirm] = $this->getPublicParams();
 
         $name  = input()->get('name', input()->getOpt('name', ''));
         $names = $name ? explode(',', $name) : [];
 
         try {
-            $this->logic->up(
-                $names,
-                $dbs,
-                $prefix,
-                $start,
-                $end,
-                $isConfirm
-            );
+            $this->logic->up($names, $dbs, $prefix, $start, $end, $isConfirm);
         } catch (Throwable $e) {
             output()->error($e->getMessage());
             ConsoleHelper::highlight($e->getTraceAsString());
@@ -98,23 +98,14 @@ class MigrateCommand
     {
         [$dbs, $prefix, $start, $end, $isConfirm] = $this->getPublicParams();
 
-        $name  = (string)input()->get('name', input()->getOpt('name', ''));
+        $name = (string)input()->get('name', input()->getOpt('name', ''));
         $pool = (string)input()->getOpt('pool', Pool::DEFAULT_POOL);
         $step = (int)input()->getOpt('step', 1);
 
         $names = $name ? explode(',', $name) : [];
 
         try {
-            $this->logic->down(
-                $names,
-                $dbs,
-                $prefix,
-                $start,
-                $end,
-                $isConfirm,
-                $pool,
-                $step
-            );
+            $this->logic->down($names, $dbs, $prefix, $start, $end, $isConfirm, $pool, $step);
         } catch (Throwable $e) {
             output()->error($e->getMessage());
             ConsoleHelper::highlight($e->getTraceAsString());

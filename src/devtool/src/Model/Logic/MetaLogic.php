@@ -1,14 +1,22 @@
 <?php declare(strict_types=1);
+/**
+ * This file is part of Swoft.
+ *
+ * @link     https://swoft.org
+ * @document https://swoft.org/docs
+ * @contact  group@swoft.org
+ * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ */
 
 namespace Swoft\Devtool\Model\Logic;
 
 use Leuffen\TextTemplate\TemplateParsingException;
-use function strpos;
 use Swoft;
 use Swoft\Bean\Annotation\Mapping\Bean;
 use Swoft\Bean\Container;
 use Swoft\Bean\Definition\ObjectDefinition;
 use Swoft\Devtool\FileGenerator;
+use function strpos;
 
 /**
  * Class PhpstormLogic
@@ -153,6 +161,18 @@ class MetaLogic
         }
 
         if (strpos($className, '\\Validator\\') > 0) {
+            return true;
+        }
+
+        if (strpos($className, 'Swoft\\Server\\Context\\') !== false) {
+            return true;
+        }
+
+        if (strpos($className, '\\WebSocket\\Server\\Context\\') > 0) {
+            return true;
+        }
+
+        if (strpos($className, '\\Tcp\\Server\\Context\\') > 0) {
             return true;
         }
 
